@@ -1,4 +1,4 @@
 node_modules/*
-results/*
+*/report*.**
 .env
 .DS_store
