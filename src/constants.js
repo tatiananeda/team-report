@@ -14,6 +14,12 @@ export const STATUS_TO_REPORT = [
   "Needs RC",
   "Blocked",
   "Done",
+  "Peer Review",
+  "Ready for QA",
+  "Ready for Demo",
+  "In QA",
+  "Demo",
+  "In Progress",
   "other",
 ];
 
@@ -25,37 +31,39 @@ export const SCHEMA = [
   },
   {
     column: "In Development",
-    value: (obj) => obj["In Development"].join(", "),
+    value: (obj) => [...obj["in development"], ...obj['in progress']].join(", "),
     ...defaults,
   },
   {
     column: "Review",
-    value: (obj) => obj.Review.join(", "),
+    value: (obj) => [...obj.review, ...obj['peer review']].join(", "),
     ...defaults,
   },
   {
     column: "DevTest",
-    value: (obj) => obj.DevTest.join(", "),
+    value: (obj) => obj.devtest.join(", "),
     ...defaults,
   },
   {
     column: "QA",
-    value: (obj) => obj.QA.join(", "),
+    value: (obj) => [
+      ...obj.qa, ...obj.demo, ...obj['in qa'], ...obj['ready for qa'], ...obj['ready for demo']
+    ].join(", "),
     ...defaults,
   },
   {
     column: "Needs RC",
-    value: (obj) => obj["Needs RC"].join(", "),
+    value: (obj) => obj["needs rc"].join(", "),
     ...defaults,
   },
   {
     column: "Blocked",
-    value: (obj) => obj.Blocked.join(", "),
+    value: (obj) => obj.blocked.join(", "),
     ...defaults,
   },
   {
     column: "Done",
-    value: (obj) => obj.Done.join(", "),
+    value: (obj) => obj.done.join(", "),
     ...defaults,
   },
   {
