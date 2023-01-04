@@ -16,14 +16,6 @@ const teamData = [
       password: process.env.JIRA_PASSWORD_1,
     }),
     team: JSON.parse(process.env.TEAM_1)
-  },
-  {
-    client: new JiraApi({
-      host: process.env.JIRA_HOST_2,
-      username: process.env.JIRA_USERNAME_2,
-      password: process.env.JIRA_PASSWORD_2,
-    }),
-    team: JSON.parse(process.env.TEAM_2)
   }
 ]
 
