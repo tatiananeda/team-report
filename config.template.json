@@ -1,0 +1,13 @@
+[
+    {
+      "host": "jira host",
+      "username": "jira username",
+      "password": "jira access token",
+      "team": {
+        "Name": {
+          "id": "jira id",
+          "kanban": "true/false"
+        }
+      }
+    }
+  ]

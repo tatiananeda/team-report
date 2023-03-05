@@ -11,18 +11,36 @@ export default class DataLoader {
     this.#timeQuery = timeQuery || "sprint in openSprints ()";
   }
 
-  #getData = async (userId) => {
+  #getStartAndEndOfCurrentWeek() {
+    const current = new Date;
+    const start = this.#formatDate(new Date(current.setDate(current.getDate() - current.getDay())));
+    const end = this.#formatDate(new Date(current.setDate(current.getDate() - current.getDay()+6)));
+    return { start, end }
+  }
+
+  #formatDate(date) {
+    return `${date.getFullYear()}/${date.getMonth()+1}/${date.getDate()}`
+  }
+
+  #getData = async ({ id, kanban }) => {
+    let query = ''
+
+    if (!kanban) {
+      query  = `("Developer[User Picker (single user)]"=${id} OR assignee=${id}) AND ${this.#timeQuery}`
+    } else {
+      const { start, end } = this.#getStartAndEndOfCurrentWeek()
+      query = `("Developer[User Picker (single user)]"=${id} OR assignee=${id})
+       AND (updated > "${start}" and updated < "${end}") OR (updated > "${start}" and updated < "${end}")
+       OR (created > "${start}" and created < "${end}") OR (created > "${start}" and created < "${end}")
+       `
+    }
+    
     let allIssues = [];
     let start = 0;
     let toFetch = false;
     try {
       do {
-        const data = await this.#client.searchByQuery(
-          `("Developer[User Picker (single user)]"=${userId} OR assignee=${userId}) AND ${
-            this.#timeQuery
-          }`,
-          start
-        );
+        const data = await this.#client.searchByQuery(query, start);
 
         if (data?.issues) allIssues = [...allIssues, ...data.issues];
 
@@ -46,7 +64,7 @@ export default class DataLoader {
     try {
       const teamPairs = Object.entries(this.#team);
       const data = await Promise.all(
-        teamPairs.map(([_name, id]) => this.#getData(id))
+        teamPairs.map(([_name, user]) => this.#getData(user))
       );
 
       const dataRows = data.map((byUser, idx) => {

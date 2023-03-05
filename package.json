@@ -8,13 +8,12 @@
   },
   "type": "module",
   "scripts": {
-    "start": "node index.js",
+    "start": "TIME_QUERY='' node index.js",
     "test": "echo \"Error: no test specified\""
   },
   "author": "Tetiana Nedavnia",
   "license": "MIT",
   "dependencies": {
-    "dotenv": "^16.0.3",
     "jira-client": "^8.2.0",
     "write-excel-file": "^1.4.13"
   }
