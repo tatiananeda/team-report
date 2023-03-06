@@ -8,7 +8,7 @@
   },
   "type": "module",
   "scripts": {
-    "start": "TIME_QUERY='' node index.js",
+    "start": "node index.js",
     "test": "echo \"Error: no test specified\""
   },
   "author": "Tetiana Nedavnia",
