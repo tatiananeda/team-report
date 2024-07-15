@@ -27,7 +27,7 @@ export default class DataLoader {
       do {
         const data = await this.#client.searchByQuery(query, start);
 
-        if (data?.issues) allIssues = [...allIssues, ...data.issues];
+        if (data?.issues) allIssues.push(...data.issues);
 
         const fetched = allIssues.length;
         if (fetched < data?.total) {
@@ -61,7 +61,7 @@ export default class DataLoader {
 
         byUser.forEach((ticket) => {
           const status = ticket?.fields?.status?.name?.toLowerCase();
-          if (buckets[status]) buckets[status].push(ticket.key);
+          if (buckets[status]) buckets[status].push(`${ticket.key}(${ticket.fields?.customfield_10029 || '-'})`);
           else buckets.other.push(`${ticket.key} - ${ticket.fields.status.name}`);
         });
 
